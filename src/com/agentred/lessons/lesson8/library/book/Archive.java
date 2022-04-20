@@ -4,16 +4,7 @@ import java.util.ArrayList;
 
 public class Archive {
 
-    private final int numberArchive;
     private final ArrayList<Book> books = new ArrayList<>();
-
-    public Archive(int numberArchive) {
-        this.numberArchive = numberArchive;
-    }
-
-    public int getNumberArchive() {
-        return numberArchive;
-    }
 
     public ArrayList<Book> getBooks() {
         return books;
@@ -27,6 +18,7 @@ public class Archive {
         for (Book book : books) {
             if (book.getName().equals(bookName)) {
                 this.books.remove(book);
+                System.out.println("Книга убрана из архива");
                 break;
             }
         }

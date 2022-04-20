@@ -5,12 +5,10 @@ import com.agentred.lessons.lesson8.library.book.Book;
 public class Visitor {
 
     private int numberTicket;
-    private int noiseLvl;
     private Book book;
 
-    public Visitor(int numberTicket, int noiseLvl) {
+    public Visitor(int numberTicket) {
         this.numberTicket = numberTicket;
-        this.noiseLvl = noiseLvl;
     }
 
     public void setBook(Book book) {
@@ -35,13 +33,5 @@ public class Visitor {
 
     public void setNumberTicket(int numberTicket) {
         this.numberTicket = numberTicket;
-    }
-
-    public int getNoiseLvl() {
-        return noiseLvl;
-    }
-
-    public void setNoiseLvl(int noiseLvl) {
-        this.noiseLvl = noiseLvl;
     }
 }
