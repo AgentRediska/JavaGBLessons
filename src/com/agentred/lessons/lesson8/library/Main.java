@@ -2,10 +2,10 @@ package com.agentred.lessons.lesson8.library;
 
 import com.agentred.lessons.lesson8.library.actor.Librarian;
 import com.agentred.lessons.lesson8.library.actor.Visitor;
-import com.agentred.lessons.lesson8.library.archive.Archive;
+import com.agentred.lessons.lesson8.library.archive.BaseArchive;
 import com.agentred.lessons.lesson8.library.archive.Book;
 import com.agentred.lessons.lesson8.library.radingroom.ReadingRoom;
-import com.agentred.lessons.lesson8.library.register.Register;
+import com.agentred.lessons.lesson8.library.register.BaseRegister;
 
 import java.util.ArrayList;
 
@@ -15,9 +15,9 @@ public class Main {
         Book book = new Book("Война и мир");
         Book book2 = new Book("Мертвые души");
 
-        Archive archive = new Archive();
+        BaseArchive archive = new BaseArchive();
         ReadingRoom readingRoom = new ReadingRoom(1, archive, 30);
-        Register register = new Register();
+        BaseRegister register = new BaseRegister();
 
         //первый день библиотекаря
         Librarian librarian = new Librarian(register, "Денис Петрович", archive);
