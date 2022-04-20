@@ -1,8 +1,8 @@
 package com.agentred.lessons.lesson8.library.actor;
 
-import com.agentred.lessons.lesson8.library.Note;
-import com.agentred.lessons.lesson8.library.book.Archive;
-import com.agentred.lessons.lesson8.library.book.Book;
+import com.agentred.lessons.lesson8.library.register.Note;
+import com.agentred.lessons.lesson8.library.archive.Archive;
+import com.agentred.lessons.lesson8.library.archive.Book;
 import com.agentred.lessons.lesson8.library.radingroom.ReadingRoom;
 import com.agentred.lessons.lesson8.library.register.Register;
 
@@ -13,19 +13,20 @@ public class Librarian {
     private Register register;
     private final String fullName;
     private ArrayList<ReadingRoom> readingRooms = new ArrayList<>();
-    private final Archive archive = new Archive();
+    private final Archive archive;
 
-    public Librarian(Register register, String fullName) {
+    public Librarian(Register register, String fullName, Archive archive) {
+        this.archive = archive;
         this.register = register;
         this.fullName = fullName;
     }
 
     public void addNote(int visitorTicket, int numberReadingRoom, String nameBook) {
         Note note = new Note(visitorTicket, numberReadingRoom, nameBook);
-        register.addNote(note);
+        register.getNotes().add(note);
     }
 
-    public void deleteNote(int visitorTicket) {
+    private void deleteNote(int visitorTicket) {
         for (Note note : register.getNotes()) {
             if (note.getVisitorTicket() == visitorTicket) {
                 register.getNotes().remove(note);
@@ -34,18 +35,22 @@ public class Librarian {
         }
     }
 
-    private boolean checkNote(int visitorTicket) {
+    public boolean checkNote(int visitorTicket) {
         ArrayList<Note> notes = register.getNotes();
-        for (Note note : notes) {
-            if (note.getVisitorTicket() == visitorTicket) {
-                return true;
+        if (notes.isEmpty()) {
+            return true;
+        } else {
+            for (Note note : notes) {
+                if (note.getVisitorTicket() == visitorTicket) {
+                    return true;
+                }
             }
+            System.out.println("Такой номерок занят, выберу другой номерок для Вас");
+            return false;
         }
-        System.out.println("Такой номерок занят, выберу другой номерок для Вас");
-        return false;
     }
 
-    private int generateTicket() {
+    public int generateTicket() {
         int number;
         do {
             number = 43;
@@ -54,25 +59,28 @@ public class Librarian {
         return number;
     }
 
-    public void offerBookToVisitor() {
+    public ArrayList<String> offerBookToVisitor() {
         System.out.println("Вот список наших книг:\n");
+        ArrayList<String> namesBook = new ArrayList<>();
         for (Book book : archive.getBooks()) {
-            System.out.println(book.getName());
+            namesBook.add(book.getName());
         }
         System.out.println("Какую книгу хотите выбрать?:\n");
+        return namesBook;
     }
 
-    public void giveBookToVisitor(String bookName, Visitor visitor) {
-        if (!isBookWithVisitor(visitor.getNumberTicket())) {
-            for (Book book : archive.getBooks()) {
-                if (bookName.equals(book.getName())) {
+    public Book giveBookToVisitor(int numberTicket, String bookName) {
+        if (!isBookWithVisitor(numberTicket)) {
+            for (Book b : archive.getBooks()) {
+                if (b.getName().equals(bookName)) {
                     archive.pickUpBook(bookName);
                     System.out.println("Вот Ваша книга");
-                    addVisitorToReadingRoom(bookName);
-                    visitor.setBook(book);
+                    addVisitorToReadingRoom(bookName, numberTicket);
+                    return b;
                 }
             }
         }
+        return null;
     }
 
     private boolean isBookWithVisitor(int visitorTicket) {
@@ -88,7 +96,8 @@ public class Librarian {
 
     public void takeBookWithVisitor(int visitorTicket, Book book) {
         deleteNote(visitorTicket);
-        archive.addBook(book);
+        addBookToArchive(book);
+        System.out.println("Спасибо, приходите ещё");
     }
 
     public void memorizeNewReadingRoom(ReadingRoom readingRoom) {
@@ -102,7 +111,7 @@ public class Librarian {
         System.out.println("Окей, я понял, что читательный зал закрылся");
     }
 
-    public int checkCountVisitorInReadingRoom(int numberReadingRoom) {
+    private int checkCountVisitorInReadingRoom(int numberReadingRoom) {
         for (ReadingRoom readingRoom : readingRooms) {
             if (numberReadingRoom == readingRoom.getNumberReadingRoom()) {
                 return readingRoom.getMaxVisitorCount();
@@ -111,15 +120,18 @@ public class Librarian {
         return 0;
     }
 
-    public void addVisitorToReadingRoom(String nameBook) {
+    private void addVisitorToReadingRoom(String nameBook, int numberTicket) {
         for (ReadingRoom readingRoom : readingRooms) {
             int count = checkCountVisitorInReadingRoom(readingRoom.getNumberReadingRoom());
             if (count < readingRoom.getMaxVisitorCount()) {
-                int ticketNumber = generateTicket();
-                addNote(ticketNumber, readingRoom.getNumberReadingRoom(), nameBook);
+                addNote(numberTicket, readingRoom.getNumberReadingRoom(), nameBook);
                 System.out.println("Пройдите в читальный зал номер " + readingRoom.getNumberReadingRoom());
                 break;
             }
         }
+    }
+
+    public void addBookToArchive(Book book) {
+        archive.addBook(book);
     }
 }

@@ -1,6 +1,6 @@
-package com.agentred.lessons.lesson8.library;
+package com.agentred.lessons.lesson8.library.register;
 
-public class Note {
+public final class Note {
 
     private final int visitorTicket;
     private final int numberReadingRoom;

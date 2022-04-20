@@ -1,30 +1,26 @@
 package com.agentred.lessons.lesson8.library.actor;
 
-import com.agentred.lessons.lesson8.library.book.Book;
+import com.agentred.lessons.lesson8.library.archive.Book;
+
+import java.util.ArrayList;
 
 public class Visitor {
 
     private int numberTicket;
     private Book book;
 
-    public Visitor(int numberTicket) {
-        this.numberTicket = numberTicket;
+    public void takeBook(Book book) {
+        this.book = book;
     }
 
-    public void setBook(Book book) {
-        if(this.book == null){
-            this.book = book;
-        } else {
-            System.out.println("У посетителя уже есть книга");
-        }
+    public String changeBook(ArrayList<String> namesBook) {
+        System.out.println("Я хочу взять " + namesBook.get(1));
+        return namesBook.get(1);
     }
 
     public Book getBook() {
+        System.out.println("Возьмите книгу, я прочел что хотел");
         return this.book;
-    }
-
-    public void deleteBook() {
-        this.book = null;
     }
 
     public int getNumberTicket() {
@@ -34,4 +30,5 @@ public class Visitor {
     public void setNumberTicket(int numberTicket) {
         this.numberTicket = numberTicket;
     }
+
 }

@@ -1,6 +1,6 @@
 package com.agentred.lessons.lesson8.library.radingroom;
 
-import com.agentred.lessons.lesson8.library.book.Archive;
+import com.agentred.lessons.lesson8.library.archive.Archive;
 
 public class ReadingRoom {
 
