@@ -3,7 +3,8 @@ package com.agentred.lessons.lesson8.library;
 import com.agentred.lessons.lesson8.library.actor.Librarian;
 import com.agentred.lessons.lesson8.library.actor.Visitor;
 import com.agentred.lessons.lesson8.library.archive.BaseArchive;
-import com.agentred.lessons.lesson8.library.archive.Book;
+import com.agentred.lessons.lesson8.library.archive.book.Book;
+import com.agentred.lessons.lesson8.library.archive.book.Genre;
 import com.agentred.lessons.lesson8.library.radingroom.ReadingRoom;
 import com.agentred.lessons.lesson8.library.register.BaseRegister;
 
@@ -12,8 +13,15 @@ import java.util.ArrayList;
 public class Main {
 
     public static void main(String[] args) {
-        Book book = new Book("Война и мир");
-        Book book2 = new Book("Мертвые души");
+        //создать книги
+        ArrayList<Genre> genres1 = new ArrayList<>();
+        genres1.add(Genre.Crime);
+        genres1.add(Genre.Romance);
+        Book book = new Book("Война и мир", genres1);
+        ArrayList<Genre> genres2 = new ArrayList<>();
+        genres2.add(Genre.Fantasy);
+        genres2.add(Genre.Horror);
+        Book book2 = new Book("Мертвые души", genres2);
 
         BaseArchive archive = new BaseArchive();
         ReadingRoom readingRoom = new ReadingRoom(1, archive, 30);
@@ -29,6 +37,7 @@ public class Main {
 
         // посетитель приходит
         Visitor visitor = new Visitor();
+        librarian.suggestBooksByGenre(Genre.Crime);
         ArrayList<String> nameBook = librarian.offerBookToVisitor();
         String nameChangedBook = visitor.changeBook(nameBook);
         int numberTicket = librarian.generateTicket();

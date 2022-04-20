@@ -1,8 +1,9 @@
 package com.agentred.lessons.lesson8.library.actor;
 
+import com.agentred.lessons.lesson8.library.archive.book.Genre;
 import com.agentred.lessons.lesson8.library.register.Note;
 import com.agentred.lessons.lesson8.library.archive.Archive;
-import com.agentred.lessons.lesson8.library.archive.Book;
+import com.agentred.lessons.lesson8.library.archive.book.Book;
 import com.agentred.lessons.lesson8.library.radingroom.ReadingRoom;
 import com.agentred.lessons.lesson8.library.register.Register;
 
@@ -60,12 +61,13 @@ public class Librarian {
     }
 
     public ArrayList<String> offerBookToVisitor() {
-        System.out.println("Вот список наших книг:\n");
+        System.out.println("Вот список наших книг, которые хранятся в архиве:");
         ArrayList<String> namesBook = new ArrayList<>();
         for (Book book : archive.getBooks()) {
             namesBook.add(book.getName());
+            System.out.println(book.getName());
         }
-        System.out.println("Какую книгу хотите выбрать?:\n");
+        System.out.println("Какую книгу хотите выбрать?");
         return namesBook;
     }
 
@@ -102,7 +104,7 @@ public class Librarian {
 
     public void memorizeNewReadingRoom(ReadingRoom readingRoom) {
         readingRooms.add(readingRoom);
-        System.out.println("Окей, я понял, что у нас появился новый читательный зал");
+        System.out.println("Окей, я понял, что у нас появился новый читательный зал\n");
 
     }
 
@@ -133,5 +135,26 @@ public class Librarian {
 
     public void addBookToArchive(Book book) {
         archive.addBook(book);
+    }
+
+    private ArrayList<Book> getBooksByGenre(Genre genre) {
+        ArrayList<Book> allBooks = archive.getBooks();
+        ArrayList<Book> booksByGenre = new ArrayList<>();
+        for (Book book : allBooks) {
+            for (Genre g : book.getGenres()) {
+                if (g == genre) {
+                 booksByGenre.add(book);
+                }
+            }
+        }
+        return booksByGenre;
+    }
+
+    public void suggestBooksByGenre(Genre genre) {
+        ArrayList<Book> books = getBooksByGenre(genre);
+        System.out.println("Здравствуйте. Хочу предложить Вам книги с жанром " + genre);
+        for (Book b : books) {
+            System.out.println(b.getName());
+        }
     }
 }

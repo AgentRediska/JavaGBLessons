@@ -1,6 +1,6 @@
 package com.agentred.lessons.lesson8.library.actor;
 
-import com.agentred.lessons.lesson8.library.archive.Book;
+import com.agentred.lessons.lesson8.library.archive.book.Book;
 
 import java.util.ArrayList;
 
