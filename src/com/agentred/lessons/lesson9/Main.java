@@ -35,7 +35,6 @@ public class Main {
                 try {
                     sum += Integer.parseInt(arr[i][j]);
                 } catch (NumberFormatException ex) {
-                    System.out.println("AAAAAAAAAAAAAA");
                     throw new MyArrayDataException(i, j);
                 }
             }
