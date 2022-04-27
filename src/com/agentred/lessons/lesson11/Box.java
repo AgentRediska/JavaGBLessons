@@ -5,7 +5,7 @@ import com.agentred.lessons.lesson11.fruit.Fruit;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Box<T extends Fruit> implements Comparable<Box> {
+public class Box<T extends Fruit> {
 
     private final List<T> listOfProduct = new LinkedList<>();
 
@@ -18,14 +18,15 @@ public class Box<T extends Fruit> implements Comparable<Box> {
     }
 
     public float getWeight() {
-        if(!listOfProduct.isEmpty()){
+        if (!listOfProduct.isEmpty()) {
             T fruit = listOfProduct.get(0);
             return listOfProduct.size() * fruit.getWeight();
         } else return 0;
     }
 
-    @Override
-    public int compareTo(Box o) {
-       return  (this.getWeight() == o.getWeight()) ? 1 : 0;
+    public boolean compare(Box<? extends Fruit> o) {
+        return Math.abs(this.getWeight() - o.getWeight()) < 0.1f;
     }
+
+
 }

@@ -4,10 +4,7 @@ import com.agentred.lessons.lesson11.fruit.Apple;
 import com.agentred.lessons.lesson11.fruit.Fruit;
 import com.agentred.lessons.lesson11.fruit.Orange;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class Main {
 
@@ -16,6 +13,7 @@ public class Main {
         firstTask();
         secondTask();
         thirdTask();
+        fourthTask();
     }
 
     public static void firstTask() {
@@ -47,20 +45,53 @@ public class Main {
 
     public static void thirdTask() {
         Box<Apple> box = new Box<>();
-        getBoxWithApple(box);
-        System.out.println("Weight of box is - " + box.getWeight());
+        getBoxWithApple(box, 6);
+        System.out.println("Weight of apple box is - " + box.getWeight());
 
-        Box<Orange> box2 = getBoxWithApple();
-        System.out.println("Weight of box2 is - " + box.getWeight());
+        Box<Orange> box2 = new Box<>();
+        getBoxWithOrange(box2, 4);
+        System.out.println("Weight of orange box is - " + box2.getWeight());
+
+        System.out.println("Compare apple box with orange box - " + box.compare(box2));
     }
 
-    public static <T extends Fruit> Box<T>  getBoxWithApple(Box<T> box) {
-        int count = 0;
-        while (count < 20) {
-            box.setProduct(new T());
-            count++;
+    public static void getBoxWithApple(Box<Apple> box, int count) {
+        int i = 0;
+        while (i < count) {
+            box.setProduct(new Apple());
+            i++;
         }
-        return box;
     }
 
+    public static void getBoxWithOrange(Box<Orange> box, int count) {
+        int i = 0;
+        while (i < count) {
+            box.setProduct(new Orange());
+            i++;
+        }
+    }
+
+    public static void fourthTask() {
+        Box<Apple> appleBox = new Box<>();
+        getBoxWithApple(appleBox, 6);
+
+        Box<Orange> orangeBox = new Box<>();
+        getBoxWithOrange(orangeBox, 4);
+
+        Box<Apple> newBox = sprinkleFruits(appleBox);
+        System.out.println("The new box has " + newBox.getWeight()
+                + " and the old box has " + appleBox.getWeight());
+    }
+
+    public static <T extends Fruit> Box<T> sprinkleFruits(Box<T> fullBox) {
+        Box<T> emptyBox = new Box<>();
+        List<T> fruits = fullBox.getListOfProduct();
+        ListIterator<T> iterator = fruits.listIterator();
+        while (iterator.hasNext()){
+            T fruit = iterator.next();
+            emptyBox.setProduct(fruit);
+            iterator.remove();
+        }
+        return emptyBox;
+    }
 }
